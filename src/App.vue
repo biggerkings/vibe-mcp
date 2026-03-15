@@ -2,15 +2,11 @@
   <!-- 
     登录引导页面主组件
     页面结构：
-    1. 状态栏 (StatusBar)
-    2. 关闭按钮区域
-    3. 主内容区（Logo + 登录方式列表 + 协议勾选）
-    4. 底部 Home 指示条
+    1. 关闭按钮区域
+    2. 主内容区（Logo + 登录方式列表 + 协议勾选）
+    3. 底部 Home 指示条
   -->
   <div class="login-page">
-    <!-- 状态栏 -->
-    <StatusBar />
-    
     <!-- 关闭按钮 -->
     <div class="login-page__header">
       <CloseButton @click="handleClose" />
@@ -52,7 +48,6 @@
  */
 
 import { ref } from 'vue'
-import StatusBar from '@components/common/StatusBar.vue'
 import CloseButton from '@components/common/CloseButton.vue'
 import LogoIllustration from '@components/login/LogoIllustration.vue'
 import LoginMethodList from '@components/login/LoginMethodList.vue'
