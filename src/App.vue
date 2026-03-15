@@ -117,7 +117,8 @@ const handleServiceClick = () => {
 
   &__agreement {
     width: $content-width;
-    margin-top: 0.44rem;
+    margin-top: 0.16rem;
+    margin-bottom: 1.16rem; // 底部预留空间，确保与 Home 指示条有足够间距
   }
 }
 </style>

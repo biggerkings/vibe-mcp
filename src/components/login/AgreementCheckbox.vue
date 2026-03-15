@@ -88,11 +88,13 @@ const handleServiceClick = () => {
     flex-shrink: 0;
     border-radius: 50%;
     transition: all 0.2s ease;
+    border: 0.02rem solid $color-border-card;
+    background-color: transparent;
+    box-sizing: border-box;
 
     &.is-checked {
-      .agreement-checkbox__check-icon {
-        display: block;
-      }
+      border-color: $color-brand-primary;
+      background-color: rgba($color-brand-primary, 0.1);
     }
 
     svg {
