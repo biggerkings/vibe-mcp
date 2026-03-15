@@ -1,0 +1,150 @@
+/**
+ * ============================================
+ * 全局样式
+ * ============================================
+ */
+
+@use "./variables.scss" as *;
+
+// 页面容器
+.page-container {
+  width: 100%;
+  max-width: $page-max-width;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: $gradient-page-background;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+// 内容区域
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 $page-padding-horizontal;
+}
+
+// 通用 flex 布局类
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// 文字样式
+.text-primary {
+  color: $color-text-primary;
+  font-family: $font-family-base;
+}
+
+.text-tertiary {
+  color: $color-text-tertiary;
+  font-family: $font-family-base;
+}
+
+.text-link {
+  color: $color-text-link;
+  font-family: $font-family-base;
+  cursor: pointer;
+  
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+// 标题样式
+.title-lg {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  line-height: $line-height-normal;
+  text-align: center;
+}
+
+// 按钮文字
+.button-text {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  line-height: 0.32rem;
+}
+
+// 辅助文字
+.helper-text {
+  font-size: $font-size-md;
+  font-weight: $font-weight-normal;
+  color: $color-text-tertiary;
+  line-height: 0.34rem;
+}
+
+// 安全区域适配
+.safe-area-top {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+// iPhone X+ 底部指示条区域
+.iphone-home-indicator {
+  height: $home-indicator-height;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &::after {
+    content: '';
+    width: 1.35rem;
+    height: 0.05rem;
+    background-color: #000000;
+    border-radius: 0.025rem;
+  }
+}
+
+// 点击反馈
+.clickable {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+// 禁用选择
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+// 隐藏滚动条
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

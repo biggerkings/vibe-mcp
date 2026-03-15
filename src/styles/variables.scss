@@ -1,0 +1,129 @@
+/**
+ * ============================================
+ * Design Token 变量规范
+ * 来源：MasterGo 设计稿 (file: 17858753938881)
+ * ============================================
+ */
+
+// ============================================
+// 颜色规范 / Colors
+// ============================================
+
+// 背景色
+$color-bg-primary: #FFFFFF;                    // 主背景色
+$color-bg-secondary-start: #FDF4ED;           // 二级背景渐变起始色 (token: 背景色/二级背景-渐变色)
+$color-bg-secondary-end: #FFFFFF;               // 二级背景渐变结束色
+
+// 字体色
+$color-text-primary: #333333;                   // 一级文字色 (token: 字体色/一级文字)
+$color-text-tertiary: #999999;                  // 三级文字色 (token: 字体色/三级文字)
+$color-text-link: #5680E9;                      // 链接色 (token: 字体色/七级文字-链接色)
+
+// 品牌色
+$color-brand-primary: #E57423;                  // 一级主色-品牌色 (token: 品牌色/一级主色-品牌色)
+
+// 线条色
+$color-border-card: #D6D6D6;                    // 一级线条-卡片描边色 (token: 线条色/一级线条-卡片描边色)
+
+// 第三方登录品牌色
+$color-facebook: #0866FF;                       // Facebook 品牌色
+$color-google-blue: #4285F4;                    // Google 蓝色
+$color-google-green: #34A853;                   // Google 绿色
+$color-google-yellow: #FBBC05;                  // Google 黄色
+$color-google-red: #EA4335;                     // Google 红色
+
+// ============================================
+// 字体规范 / Typography
+// ============================================
+
+// 字体家族
+$font-family-base: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// 字体大小 (基于设计稿像素值转换为 rem)
+$font-size-xl: 0.32rem;                         // 32px - 标题文字
+$font-size-lg: 0.30rem;                        // 30px - 按钮/导航文字
+$font-size-md: 0.24rem;                         // 24px - 辅助文字
+
+// 行高
+$line-height-tight: 1.2;
+$line-height-normal: 1.4;
+$line-height-relaxed: 1.6;
+
+// 字重
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// ============================================
+// 间距规范 / Spacing
+// ============================================
+
+// 基础间距单位
+$spacing-xs: 0.08rem;                           // 8px
+$spacing-sm: 0.16rem;                           // 16px
+$spacing-md: 0.24rem;                           // 24px
+$spacing-lg: 0.32rem;                           // 32px
+$spacing-xl: 0.36rem;                           // 36px
+
+// 页面边距
+$page-padding-horizontal: 0.32rem;              // 32px
+
+// 组件间距
+$gap-login-buttons: 0.24rem;                     // 登录按钮间距 24px
+$gap-login-items: 0.10rem;                       // 登录按钮内部间距 10px
+
+// ============================================
+// 尺寸规范 / Dimensions
+// ============================================
+
+// 状态栏
+$status-bar-height: 0.88rem;                     // 88px
+
+// 登录按钮
+$login-button-height: 0.96rem;                   // 96px
+$login-button-border-radius: 0.32rem;            // 32px 圆角
+$login-button-icon-size: 0.40rem;                 // 40px 图标尺寸
+
+// 关闭按钮
+$close-button-size: 0.32rem;                     // 32px
+$close-button-area: 0.80rem;                     // 80px 点击区域
+
+// 复选框
+$checkbox-size: 0.34rem;                         // 34px
+
+// 底部指示条
+$home-indicator-height: 0.34rem;                 // 34px
+
+// Logo 区域
+$logo-width: 3.47rem;                            // 347px
+$logo-height: 2.80rem;                           // 280px
+
+// ============================================
+// 圆角规范 / Border Radius
+// ============================================
+
+$border-radius-sm: 0.08rem;                       // 8px
+$border-radius-md: 0.16rem;                       // 16px
+$border-radius-lg: 0.32rem;                       // 32px
+$border-radius-full: 50%;                         // 圆形
+
+// ============================================
+// 阴影与效果 / Effects
+// ============================================
+
+// 渐变背景
+$gradient-page-background: linear-gradient(180deg, #FDF4ED 0%, #FFFFFF 35%);
+
+// ============================================
+// 布局规范 / Layout
+// ============================================
+
+// 设计稿基准宽度
+$design-width: 750;
+
+// 页面最大宽度
+$page-max-width: 7.50rem;                        // 750px
+
+// 内容区域宽度
+$content-width: 6.86rem;                          // 686px
