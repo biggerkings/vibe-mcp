@@ -1,221 +1,222 @@
-<template>
-  <!-- 
-    订单详情页
-    
-    页面结构：
-    1. 顶部导航栏（返回按钮 + 标题"订单详情"）- 使用可复用的 PageHeader 组件
-    2. 顶部渐变遮罩
-    3. 滚动内容区：
-       - 订单状态（待支付 + 倒计时 + 价格）
-       - 商品信息卡片
-       - 出行信息
-       - 订单信息
-       - 取消订单按钮
-    4. 底部支付按钮（固定在底部）
-    
-    设计尺寸：750 x 1728px
-    背景色：#F4F6F8
-  -->
-  <div class="order-detail">
-    <!-- 顶部导航栏 - 可复用组件 -->
-    <PageHeader title="订单详情" @back="handleBack" />
-    
-    <!-- 顶部渐变遮罩 -->
-    <div class="order-detail__gradient"></div>
-    
-    <!-- 滚动内容区 -->
-    <div class="order-detail__content">
-      <!-- 订单状态 -->
-      <div class="order-detail__section">
-        <OrderStatus 
-          status-text="待支付"
-          countdown="14:12"
-          currency="CNY"
-          amount="1298"
-          :expandable="true"
-          @expand="handleExpand"
-        />
-      </div>
-      
-      <!-- 商品信息卡片 -->
-      <div class="order-detail__section">
-        <ProductCard 
-          title="东京地铁24/48/72小时乘车券(兑换券）"
-          :specs="[
-            '东京地铁24小时乘车券',
-            '成人(12岁以上) x 2'
-          ]"
-          validity="此凭证自订单确认时间起365天内有效，车票于首次过闸进站后72小时内有效"
-          cancel-policy="文案说明有文案说明文案说明文案说明文案说明文案说明文"
-          @guide-click="handleGuideClick"
-        />
-      </div>
-      
-      <!-- 出行信息 -->
-      <div class="order-detail__section">
-        <TravelInfo 
-          @traveler-click="handleTravelerClick"
-          @contact-click="handleContactClick"
-        />
-      </div>
-      
-      <!-- 订单信息 -->
-      <div class="order-detail__section">
-        <OrderInfo 
-          order-no="SEW121234"
-          order-time="2025-12-11 13:34:30"
-          @copy="handleCopy"
-          @service-click="handleServiceClick"
-        />
-      </div>
-      
-      <!-- 取消订单 -->
-      <div class="order-detail__section">
-        <CancelButton @cancel="handleCancel" />
-      </div>
-      
-      <!-- 底部占位，为固定支付按钮留出空间 -->
-      <div class="order-detail__spacer"></div>
-    </div>
-    
-    <!-- 底部支付按钮 - 固定在底部 -->
-    <div class="order-detail__footer">
-      <PayButton @pay="handlePay" />
-    </div>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 /**
- * 订单详情页
- * 
- * 功能：
- * - 展示订单待支付状态和价格
- * - 显示商品详情、有效期、取消政策
- * - 出行人信息和联系人信息入口
- * - 订单信息展示和复制
- * - 取消订单和立即支付操作
- * 
- * 页面尺寸：750 x 1728px (移动端设计稿)
+ * OrderDetail 页面
+ * 订单详情页主页面，整合所有订单相关组件
+ * 页面结构：顶部导航栏、渐变遮罩、订单状态、商品信息、出行信息、订单信息、取消按钮、支付按钮
  */
 
-import PageHeader from '@components/PageHeader.vue'
-import OrderStatus from '@components/order/OrderStatus.vue'
-import ProductCard from '@components/order/ProductCard.vue'
-import TravelInfo from '@components/order/TravelInfo.vue'
-import OrderInfo from '@components/order/OrderInfo.vue'
-import CancelButton from '@components/order/CancelButton.vue'
-import PayButton from '@components/order/PayButton.vue'
+import { ref, reactive } from 'vue';
+import PageHeader from '@/components/common/PageHeader.vue';
+import OrderStatus from '@/components/order/OrderStatus.vue';
+import ProductCard from '@/components/order/ProductCard.vue';
+import TravelInfo from '@/components/order/TravelInfo.vue';
+import OrderInfo from '@/components/order/OrderInfo.vue';
+import CancelButton from '@/components/order/CancelButton.vue';
+import PayButton from '@/components/order/PayButton.vue';
 
-// 返回上一页
+// 页面标题
+const pageTitle = ref('订单详情');
+
+// 订单数据
+const orderData = reactive({
+  // 订单状态数据
+  status: {
+    text: '待支付',
+    countdown: '14:12',
+    currency: 'CNY',
+    price: 1298,
+  },
+  // 商品数据
+  product: {
+    title: '东京地铁24/48/72小时乘车券(兑换券）',
+    specs: [
+      { name: '东京地铁24小时乘车券', detail: '成人(12岁以上) x 2' },
+    ],
+    notes: [
+      { icon: 'calendar' as const, label: '有效期', content: '指定日期有效' },
+      { icon: 'cancel' as const, label: '不支持取消', content: '订单确认后不可取消' },
+    ],
+  },
+  // 出行信息数据
+  travel: {
+    traveler: { title: '出行人信息', isCompleted: false },
+    contact: { title: '联系人信息', isCompleted: false },
+  },
+  // 订单信息数据
+  orderInfo: {
+    orderNo: 'SEW121234',
+    orderTime: '2025-12-11 13:34:30',
+  },
+});
+
+// 是否显示价格明细
+const showPriceDetail = ref(false);
+
+/**
+ * 处理返回按钮点击
+ */
 const handleBack = () => {
-  console.log('返回上一页')
-  // 实际项目中使用 router.back() 或 history.back()
-}
+  // 返回上一页
+  window.history.back();
+};
 
-// 展开/收起价格明细
-const handleExpand = (isExpanded) => {
-  console.log('价格明细展开状态:', isExpanded)
-}
+/**
+ * 处理价格区域点击，展开/收起价格明细
+ */
+const handleTogglePrice = () => {
+  showPriceDetail.value = !showPriceDetail.value;
+  console.log('Toggle price detail:', showPriceDetail.value);
+};
 
-// 点击"如何使用"
+/**
+ * 处理使用指南点击
+ */
 const handleGuideClick = () => {
-  console.log('打开使用指南')
-  // 跳转使用指南页面或弹窗
-}
+  console.log('Open usage guide');
+  // 跳转到使用指南页面或打开弹窗
+};
 
-// 点击出行人信息
+/**
+ * 处理出行人信息点击
+ */
 const handleTravelerClick = () => {
-  console.log('打开出行人信息')
-  // 跳转出行人信息页面
-}
+  console.log('Open traveler info form');
+  // 打开出行人信息填写页面
+};
 
-// 点击联系人信息
+/**
+ * 处理联系人信息点击
+ */
 const handleContactClick = () => {
-  console.log('打开联系人信息')
-  // 跳转联系人信息页面
-}
+  console.log('Open contact info form');
+  // 打开联系人信息填写页面
+};
 
-// 复制订单编号
-const handleCopy = (orderNo) => {
-  console.log('已复制订单编号:', orderNo)
-  // 显示复制成功提示
-}
-
-// 联系客服
+/**
+ * 处理联系客服点击
+ */
 const handleServiceClick = () => {
-  console.log('联系客服')
+  console.log('Open customer service');
   // 打开客服聊天窗口或拨打客服电话
-}
+};
 
-// 取消订单
-const handleCancel = () => {
-  console.log('取消订单')
-  // 显示确认弹窗，确认后调用取消订单API
-}
+/**
+ * 处理复制订单号
+ */
+const handleCopyOrderNo = () => {
+  // 复制订单号到剪贴板
+  navigator.clipboard.writeText(orderData.orderInfo.orderNo);
+  console.log('Order number copied:', orderData.orderInfo.orderNo);
+};
 
-// 立即支付
-const handlePay = () => {
-  console.log('立即支付')
-  // 调用支付接口，跳转支付页面
-}
+/**
+ * 处理取消订单
+ */
+const handleCancelOrder = () => {
+  console.log('Cancel order');
+  // 显示取消订单确认弹窗
+};
+
+/**
+ * 处理立即支付
+ */
+const handlePayNow = () => {
+  console.log('Pay now');
+  // 调起支付流程
+};
 </script>
+
+<template>
+  <div class="order-detail-page">
+    <!-- 顶部导航栏 -->
+    <PageHeader :title="pageTitle" @back="handleBack" />
+
+    <!-- 页面内容区域 -->
+    <div class="page-content">
+      <!-- 渐变遮罩区域 -->
+      <div class="gradient-mask"></div>
+
+      <!-- 订单状态区域 -->
+      <OrderStatus
+        :status="orderData.status.text"
+        :countdown="orderData.status.countdown"
+        :currency="orderData.status.currency"
+        :price="orderData.status.price"
+        @toggle-price="handleTogglePrice"
+      />
+
+      <!-- 商品信息卡片 -->
+      <ProductCard
+        :title="orderData.product.title"
+        :specs="orderData.product.specs"
+        :notes="orderData.product.notes"
+        @click-guide="handleGuideClick"
+      />
+
+      <!-- 出行信息卡片 -->
+      <TravelInfo
+        :traveler="orderData.travel.traveler"
+        :contact="orderData.travel.contact"
+        @click-traveler="handleTravelerClick"
+        @click-contact="handleContactClick"
+      />
+
+      <!-- 订单信息区域 -->
+      <OrderInfo
+        :order-no="orderData.orderInfo.orderNo"
+        :order-time="orderData.orderInfo.orderTime"
+        @click-service="handleServiceClick"
+        @copy-order-no="handleCopyOrderNo"
+      />
+
+      <!-- 取消订单按钮 -->
+      <CancelButton text="取消订单" @click="handleCancelOrder" />
+
+      <!-- 底部占位区域，防止内容被固定按钮遮挡 -->
+      <div class="bottom-placeholder"></div>
+    </div>
+
+    <!-- 底部支付按钮 -->
+    <PayButton
+      text="立即支付"
+      :price="orderData.status.price"
+      :currency="orderData.status.currency"
+      @click="handlePayNow"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 @use "@styles/variables.scss" as *;
 
-.order-detail {
-  width: 100%;
-  max-width: $page-max-width;
-  margin: 0 auto;
+// 页面容器
+.order-detail-page {
   min-height: 100vh;
-  background-color: $color-bg-page;  // #F4F6F8
-  display: flex;
-  flex-direction: column;
+  background: #F4F6F8;
   position: relative;
+  max-width: 7.5rem;
+  margin: 0 auto;
+}
 
-  &__gradient {
-    position: absolute;
-    top: $page-header-height;
-    left: 0;
-    right: 0;
-    height: 1.54rem;  // 154px
-    background: $gradient-header-fade;
-    pointer-events: none;
-    z-index: 1;
-  }
+// 页面内容区域
+.page-content {
+  padding-top: 0.88rem; // 顶部导航栏高度
+}
 
-  &__content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0.24rem;
-    display: flex;
-    flex-direction: column;
-    gap: $section-gap;  // 20px
-    -webkit-overflow-scrolling: touch;
+// 渐变遮罩区域
+.gradient-mask {
+  position: absolute;
+  top: 0.88rem; // 导航栏下方
+  left: 0;
+  right: 0;
+  height: 1.54rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  &__section {
-    width: 100%;
-  }
-
-  &__spacer {
-    height: 2.56rem;  // 为底部固定按钮留出足够空间
-  }
-
-  &__footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: $page-max-width;
-    margin: 0 auto;
-    z-index: 100;
-    background-color: $color-bg-card;
-  }
+// 底部占位区域
+.bottom-placeholder {
+  height: 1.6rem; // 支付按钮区域高度 + 间距
 }
 </style>

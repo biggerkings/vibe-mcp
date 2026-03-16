@@ -1,94 +1,120 @@
-<template>
-  <!-- 
-    支付按钮组件
-    固定在底部的立即支付按钮
-    
-    设计规范：
-    - 白色背景，顶部 1px 边框 #D6D6D6
-    - 按钮：品牌色背景 #E57423，圆角 32px
-    - 按钮文字：32px 白色，中粗体
-    - 底部包含 Home 指示条区域
-  -->
-  <div class="pay-button">
-    <div class="pay-button__content">
-      <button class="pay-button__btn" @click="handlePay">
-        <span class="pay-button__text">立即支付</span>
-      </button>
-    </div>
-    
-    <!-- Home 指示条 -->
-    <div class="pay-button__indicator">
-      <div class="pay-button__indicator-bar"></div>
-    </div>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 /**
- * 支付按钮组件
- * 
- * @emits pay - 点击支付按钮时触发
+ * PayButton 组件
+ * 底部支付按钮区域，固定在页面底部，包含支付按钮和iPhone Home指示条
  */
 
-const emit = defineEmits(['pay'])
-
-const handlePay = () => {
-  emit('pay')
+// 定义组件属性接口
+interface Props {
+  /** 按钮文字 */
+  text: string;
+  /** 价格显示 */
+  price: number;
+  /** 货币单位 */
+  currency: string;
+  /** 是否禁用 */
+  disabled: boolean;
 }
+
+// 使用 withDefaults 设置默认值
+withDefaults(defineProps<Props>(), {
+  text: '立即支付',
+  price: 1298,
+  currency: 'CNY',
+  disabled: false,
+});
+
+// 定义组件事件
+const emit = defineEmits<{
+  /** 点击支付按钮时触发 */
+  (e: 'click'): void;
+}>();
+
+/**
+ * 处理支付按钮点击事件
+ */
+const handleClick = () => {
+  emit('click');
+};
 </script>
+
+<template>
+  <div class="pay-button-container">
+    <!-- 支付按钮 -->
+    <button class="pay-button" :disabled="disabled" @click="handleClick">
+      <span class="button-text">{{ text }}</span>
+      <span class="button-price">{{ currency }} {{ price }}</span>
+    </button>
+
+    <!-- iPhone Home 指示条 -->
+    <div class="home-indicator"></div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @use "@styles/variables.scss" as *;
 
+// 支付按钮容器，固定在底部
+.pay-button-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  padding: 0.16rem 0.32rem calc(0.16rem + constant(safe-area-inset-bottom));
+  padding: 0.16rem 0.32rem calc(0.16rem + env(safe-area-inset-bottom));
+  box-shadow: 0 -0.02rem 0.08rem rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+// 支付按钮样式
 .pay-button {
   width: 100%;
-  background-color: $color-bg-card;
-  border-top: 1px solid $color-border-card;
-  box-shadow: $shadow-top;
-  flex-shrink: 0;
+  height: 0.96rem;
+  background: #E57423;
+  border: none;
+  border-radius: 0.32rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-  &__content {
-    padding: 0.20rem 0.32rem;
+  // 禁用状态
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
-  &__btn {
-    width: 100%;
-    height: 0.96rem;
-    background-color: $color-brand-primary;  // #E57423
-    border: none;
-    border-radius: $login-button-border-radius;  // 32px
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-
-    &:active {
-      opacity: 0.9;
-    }
+  // 激活状态
+  &:active:not(:disabled) {
+    background: darken(#E57423, 5%);
+    transform: scale(0.98);
   }
+}
 
-  &__text {
-    font-family: $font-family-base;
-    font-size: 0.32rem;  // 32px
-    font-weight: $font-weight-semibold;
-    color: $color-text-white;  // #FFFFFF
-    line-height: 0.45rem;
-  }
+// 按钮文字样式
+.button-text {
+  font-size: 0.32rem;
+  color: #FFFFFF;
+  font-weight: 600;
+}
 
-  &__indicator {
-    height: 0.60rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+// 按钮价格样式
+.button-price {
+  font-size: 0.32rem;
+  color: #FFFFFF;
+  font-weight: 600;
+}
 
-  &__indicator-bar {
-    width: 1.35rem;
-    height: 0.05rem;
-    background-color: #000000;
-    border-radius: 0.025rem;
-  }
+// iPhone Home 指示条样式
+.home-indicator {
+  width: 1.2rem;
+  height: 0.06rem;
+  background: #000000;
+  border-radius: 0.03rem;
+  margin: 0.12rem auto 0;
+  opacity: 0.2;
 }
 </style>

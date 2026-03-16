@@ -1,54 +1,70 @@
-<template>
-  <!-- 
-    取消订单按钮组件
-    
-    设计规范：
-    - 白色背景，无边框
-    - 文字：28px 常规体，#333333
-    - 居中显示
-  -->
-  <div class="cancel-button" @click="handleCancel">
-    <span class="cancel-button__text">取消订单</span>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 /**
- * 取消订单按钮组件
- * 
- * @emits cancel - 点击取消订单时触发
+ * CancelButton 组件
+ * 取消订单按钮，白色背景样式
  */
 
-const emit = defineEmits(['cancel'])
-
-const handleCancel = () => {
-  emit('cancel')
+// 定义组件属性接口
+interface Props {
+  /** 按钮文字 */
+  text: string;
+  /** 是否禁用 */
+  disabled: boolean;
 }
+
+// 使用 withDefaults 设置默认值
+withDefaults(defineProps<Props>(), {
+  text: '取消订单',
+  disabled: false,
+});
+
+// 定义组件事件
+const emit = defineEmits<{
+  /** 点击按钮时触发 */
+  (e: 'click'): void;
+}>();
+
+/**
+ * 处理按钮点击事件
+ */
+const handleClick = () => {
+  emit('click');
+};
 </script>
+
+<template>
+  <button class="cancel-button" :disabled="disabled" @click="handleClick">
+    {{ text }}
+  </button>
+</template>
 
 <style scoped lang="scss">
 @use "@styles/variables.scss" as *;
 
+// 取消订单按钮样式
 .cancel-button {
-  width: 100%;
-  height: 1.12rem;
-  background-color: $color-bg-card;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: calc(100% - 0.48rem);
+  height: 0.88rem;
+  background: #FFFFFF;
+  border: 0.02rem solid #E4E4E4;
+  border-radius: 0.32rem;
+  font-size: 0.28rem;
+  color: #666666;
+  font-weight: 500;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  margin: 0 0.24rem 0.24rem;
+  transition: all 0.2s ease;
 
-  &:active {
-    opacity: 0.7;
+  // 禁用状态样式
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
-  &__text {
-    font-family: $font-family-base;
-    font-size: 0.28rem;  // 28px
-    font-weight: $font-weight-normal;
-    color: $color-text-primary;
-    line-height: 0.40rem;
+  // 激活状态样式
+  &:active:not(:disabled) {
+    background: #F4F6F8;
+    transform: scale(0.98);
   }
 }
 </style>
