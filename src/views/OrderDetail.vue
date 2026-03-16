@@ -131,11 +131,11 @@ const handlePayNow = () => {
     <!-- 顶部导航栏 -->
     <PageHeader :title="pageTitle" @back="handleBack" />
 
+    <!-- 渐变遮罩 - 从白色渐变到透明 (设计稿: 矩形 8514) -->
+    <div class="gradient-overlay"></div>
+
     <!-- 页面内容区域 -->
     <div class="page-content">
-      <!-- 渐变遮罩区域 -->
-      <div class="gradient-mask"></div>
-
       <!-- 订单状态区域 -->
       <OrderStatus
         :status="orderData.status.text"
@@ -203,16 +203,16 @@ const handlePayNow = () => {
   padding-top: 0.88rem; // 顶部导航栏高度
 }
 
-// 渐变遮罩区域
-.gradient-mask {
+// 渐变遮罩 - 从白色渐变到透明 (设计稿: 矩形 8514)
+.gradient-overlay {
   position: absolute;
-  top: 0.88rem; // 导航栏下方
+  top: 1.76rem; /* PageHeader 高度 */
   left: 0;
   right: 0;
-  height: 1.54rem;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  height: 1.54rem; /* 154px */
+  background: linear-gradient(180deg, #FFFFFF 44%, rgba(255, 255, 255, 0) 99%);
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
 
 // 底部占位区域
