@@ -13,11 +13,20 @@
 $color-bg-primary: #FFFFFF;                    // 主背景色
 $color-bg-secondary-start: #FDF4ED;           // 二级背景渐变起始色 (token: 背景色/二级背景-渐变色)
 $color-bg-secondary-end: #FFFFFF;               // 二级背景渐变结束色
+$color-bg-page: #F4F6F8;                      // 页面底色 (token: 背景色/一级背景-页面底色)
+$color-bg-card: #FFFFFF;                      // 卡片背景色 (token: 前景色/一级前景-卡片填充色)
+$color-bg-tag: #FFF2F1;                       // 标签背景色 (浅红色)
 
 // 字体色
 $color-text-primary: #333333;                   // 一级文字色 (token: 字体色/一级文字)
+$color-text-secondary: #666666;                // 二级文字色 (token: 字体色/二级文字)
 $color-text-tertiary: #999999;                  // 三级文字色 (token: 字体色/三级文字)
 $color-text-link: #5680E9;                      // 链接色 (token: 字体色/七级文字-链接色)
+$color-text-white: #FFFFFF;                     // 白色文字
+
+// 功能色
+$color-danger: #CD2B18;                       // 红色/警告/待支付
+$color-divider: #E4E4E4;                      // 分割线颜色 (token: 线条色/二级线条-分割线)
 
 // 品牌色
 $color-brand-primary: #E57423;                  // 一级主色-品牌色 (token: 品牌色/一级主色-品牌色)
@@ -40,9 +49,12 @@ $color-google-red: #EA4335;                     // Google 红色
 $font-family-base: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // 字体大小 (基于设计稿像素值转换为 rem)
+$font-size-2xl: 0.40rem;                        // 40px - 大标题/价格
 $font-size-xl: 0.32rem;                         // 32px - 标题文字
 $font-size-lg: 0.30rem;                        // 30px - 按钮/导航文字
 $font-size-md: 0.24rem;                         // 24px - 辅助文字
+$font-size-sm: 0.22rem;                         // 22px - 小字说明
+$font-size-xs: 0.26rem;                        // 26px - 标签/副标题
 
 // 行高
 $line-height-tight: 1.2;
@@ -99,6 +111,14 @@ $home-indicator-height: 0.34rem;                 // 34px
 $logo-width: 3.47rem;                            // 347px
 $logo-height: 2.80rem;                           // 280px
 
+// 订单页面尺寸
+$page-header-height: 1.76rem;                  // 页面导航栏高度 176px（包含状态栏区域88px + 标题栏88px）
+$card-border-radius: 0.32rem;                    // 卡片圆角 32px
+$tag-border-radius: 0.08rem;                     // 标签圆角 8px
+$section-gap: 0.20rem;                          // 模块间距 20px
+$item-gap: 0.36rem;                             // 列表项间距 36px
+$inner-gap: 0.24rem;                            // 内部间距 24px
+
 // ============================================
 // 圆角规范 / Border Radius
 // ============================================
@@ -114,6 +134,10 @@ $border-radius-full: 50%;                         // 圆形
 
 // 渐变背景
 $gradient-page-background: linear-gradient(180deg, #FDF4ED 0%, #FFFFFF 35%);
+$gradient-header-fade: linear-gradient(180deg, #FFFFFF 44%, rgba(255, 255, 255, 0) 99%);
+
+// 顶部阴影
+$shadow-top: 0px -1px 0px 0px $color-divider;
 
 // ============================================
 // 布局规范 / Layout
