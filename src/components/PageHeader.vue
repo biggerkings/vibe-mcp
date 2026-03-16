@@ -88,7 +88,11 @@ const handleBack = () => {
   width: 100%;
   height: $page-header-height;
   background-color: $color-bg-card;
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   flex-shrink: 0;
 
   &__status-bar {
