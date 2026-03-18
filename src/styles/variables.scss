@@ -151,3 +151,36 @@ $page-max-width: 7.50rem;                        // 750px
 
 // 内容区域宽度
 $content-width: 6.86rem;                          // 686px
+
+// ============================================
+// 官网首页设计稿变量 / Homepage Design Tokens
+// 来源：MasterGo 设计稿 (file: 188020191520033)
+// ============================================
+
+// 品牌色
+$color-home-primary: #FF6420;                     // 品牌主色 (token: paint_2:199, 2:218)
+$color-home-secondary: #E57423;                   // 二级品牌色
+$color-home-bg-cream: #FFFAF1;                    // 奶油色背景 (token: paint_2:288)
+$color-home-bg-disabled: #F5C7A7;                 // 禁用状态背景色 (token: paint_2:291)
+
+// 导航栏
+$header-height: 0.72rem;                          // 导航栏高度 72px
+$header-bg: rgba(0, 0, 0, 0.3);                   // 导航栏背景色
+$header-shadow: 0px 2px 8px 0px rgba(143, 156, 175, 0.15);
+
+// Hero 区域
+$hero-title-size: 0.44rem;                        // 主标题 44px
+$hero-subtitle-size: 0.24rem;                     // 副标题 24px
+$hero-title-weight: 600;                          // 中粗体
+$hero-subtitle-weight: 600;                       // 中黑体
+
+// 下载区域
+$download-section-bg: #FFFAF1;                   // 券包填充色
+$download-title-size: 0.40rem;                    // 标题 40px
+$download-desc-size: 0.16rem;                     // 描述文字 16px
+$button-radius: 0.08rem;                          // 按钮圆角 8px
+$qr-radius: 0.12rem;                              // QR码圆角 12px
+
+// 布局
+$home-max-width: 19.20rem;                       // 最大宽度 1920px
+$home-content-width: 12.80rem;                    // 内容区宽度 1280px

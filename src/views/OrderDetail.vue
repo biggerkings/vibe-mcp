@@ -5,14 +5,14 @@
  * 页面结构：顶部导航栏、渐变遮罩、订单状态、商品信息、出行信息、订单信息、取消按钮、支付按钮
  */
 
-import { ref, reactive } from 'vue';
 import PageHeader from '@/components/common/PageHeader.vue';
+import CancelButton from '@/components/order/CancelButton.vue';
+import OrderInfo from '@/components/order/OrderInfo.vue';
 import OrderStatus from '@/components/order/OrderStatus.vue';
+import PayButton from '@/components/order/PayButton.vue';
 import ProductCard from '@/components/order/ProductCard.vue';
 import TravelInfo from '@/components/order/TravelInfo.vue';
-import OrderInfo from '@/components/order/OrderInfo.vue';
-import CancelButton from '@/components/order/CancelButton.vue';
-import PayButton from '@/components/order/PayButton.vue';
+import { reactive, ref } from 'vue';
 
 // 页面标题
 const pageTitle = ref('订单详情');
@@ -131,9 +131,6 @@ const handlePayNow = () => {
     <!-- 顶部导航栏 -->
     <PageHeader :title="pageTitle" @back="handleBack" />
 
-    <!-- 渐变遮罩 - 从白色渐变到透明 (设计稿: 矩形 8514) -->
-    <div class="gradient-overlay"></div>
-
     <!-- 页面内容区域 -->
     <div class="page-content">
       <!-- 订单状态区域 -->
@@ -200,7 +197,7 @@ const handlePayNow = () => {
 
 // 页面内容区域
 .page-content {
-  padding-top: 0.88rem; // 顶部导航栏高度
+  // padding-top: 0.88rem; // 顶部导航栏高度
 }
 
 // 渐变遮罩 - 从白色渐变到透明 (设计稿: 矩形 8514)
