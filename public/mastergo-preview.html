@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabigo - 日本の旅は、Tabigoから</title>
+  <style>
+    /* ============================================
+       Design Tokens (from variables.scss)
+       ============================================ */
+    :root {
+      /* Colors */
+      --color-brand-primary: #FF6420;
+      --color-brand-secondary: #E57423;
+      --color-bg-primary: #FFFFFF;
+      --color-bg-cream: #FFFAF1;
+      --color-bg-disabled: #F5C7A7;
+      --color-text-primary: #333333;
+      --color-text-secondary: #666666;
+      --color-text-white: #FFFFFF;
+      --color-header-bg: rgba(0, 0, 0, 0.3);
+      --color-border: #000000;
+      
+      /* Typography */
+      --font-family-base: 'PingFang HK', 'PingFang SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-size-xs: 14px;
+      --font-size-sm: 16px;
+      --font-size-md: 24px;
+      --font-size-lg: 40px;
+      --font-size-xl: 44px;
+      
+      /* Spacing */
+      --spacing-xs: 8px;
+      --spacing-sm: 16px;
+      --spacing-md: 24px;
+      --spacing-lg: 32px;
+      --spacing-xl: 48px;
+      
+      /* Border Radius */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 32px;
+      
+      /* Shadows */
+      --shadow-header: 0px 2px 8px 0px rgba(143, 156, 175, 0.15);
+      --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-phone: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ============================================
+       Reset & Base
+       ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family-base);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       Header / Navigation
+       ============================================ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      background: var(--color-header-bg);
+      box-shadow: var(--shadow-header);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-content {
+      width: 100%;
+      max-width: 1328px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--spacing-md);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 27px;
+      height: 25px;
+    }
+
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-text {
+      font-size: var(--font-size-xs);
+      font-weight: 400;
+      color: var(--color-text-white);
+      letter-spacing: auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .nav-link {
+      font-size: var(--font-size-xs);
+      font-weight: 400;
+      color: var(--color-text-white);
+      text-decoration: none;
+      padding: 5px 4px;
+      border-radius: var(--radius-sm);
+      transition: opacity 0.3s ease;
+      line-height: 1.6;
+    }
+
+    .nav-link:hover {
+      opacity: 0.8;
+    }
+
+    /* ============================================
+       Hero Section
+       ============================================ */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 577px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding-top: 72px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 832px;
+      text-align: center;
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .hero-title {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-xl);
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-white);
+      margin: 0 0 var(--spacing-md);
+      letter-spacing: auto;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-white);
+      margin: 0;
+      letter-spacing: auto;
+    }
+
+    .hero-subtitle br {
+      display: block;
+      content: '';
+      margin-bottom: 8px;
+    }
+
+    /* ============================================
+       Download Section
+       ============================================ */
+    .download {
+      position: relative;
+      width: 100%;
+      background: var(--color-bg-cream);
+      overflow: hidden;
+      padding: var(--spacing-xl) 0;
+    }
+
+    /* Decorative ellipses */
+    .ellipse {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--color-bg-disabled);
+      pointer-events: none;
+    }
+
+    .ellipse-left {
+      width: 580px;
+      height: 580px;
+      left: -360px;
+      top: 270px;
+      transform: rotate(-90deg);
+    }
+
+    .ellipse-right {
+      width: 616px;
+      height: 616px;
+      right: -530px;
+      top: -530px;
+      transform: rotate(-90deg);
+    }
+
+    .ellipse-small {
+      width: 86px;
+      height: 64px;
+      left: 15px;
+      top: 69px;
+      transform: rotate(54deg);
+    }
+
+    .download-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-xl);
+      padding: 0 var(--spacing-md);
+    }
+
+    /* Phone showcase */
+    .phone-showcase {
+      flex-shrink: 0;
+      width: 360px;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      position: relative;
+      width: 238px;
+      height: 516px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 6px solid var(--color-border);
+      box-shadow: var(--shadow-phone);
+    }
+
+    .phone-bg-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .phone-overlay-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    /* Download info */
+    .download-info {
+      flex: 1;
+      max-width: 645px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .download-title {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-lg);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin: 0;
+      letter-spacing: auto;
+    }
+
+    .download-desc {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-sm);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-primary);
+      margin: 0 0 var(--spacing-md);
+      letter-spacing: auto;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 21px;
+    }
+
+    .download-btn {
+      display: block;
+      width: 132px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .download-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .download-btn-content {
+      color: var(--color-text-white);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* QR Section */
+    .qr-section {
+      flex-shrink: 0;
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: var(--spacing-xs) 0;
+    }
+
+    .qr-card {
+      width: 155px;
+      height: 156px;
+      background: var(--color-bg-primary);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-xs);
+      box-shadow: var(--shadow-card);
+    }
+
+    .qr-img {
+      width: 139px;
+      height: 140px;
+      object-fit: contain;
+    }
+
+    .qr-text {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-xs);
+      font-weight: 400;
+      line-height: 1.57;
+      color: var(--color-text-primary);
+      text-align: center;
+      margin: 0;
+      letter-spacing: auto;
+    }
+
+    /* ============================================
+       Footer
+       ============================================ */
+    .footer {
+      width: 100%;
+      padding: var(--spacing-md) 0;
+      border-top: 1px solid var(--color-text-secondary);
+    }
+
+    .footer-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 0 var(--spacing-md);
+    }
+
+    .footer-text {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-xs);
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       Responsive
+       ============================================ */
+    @media (max-width: 1200px) {
+      .download-content {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--spacing-lg);
+      }
+
+      .phone-showcase {
+        order: 2;
+      }
+
+      .download-info {
+        order: 1;
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .download-desc {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .download-buttons {
+        justify-content: center;
+      }
+
+      .qr-section {
+        order: 3;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 var(--spacing-sm);
+      }
+
+      .nav {
+        gap: var(--spacing-sm);
+      }
+
+      .hero-title {
+        font-size: var(--font-size-lg);
+      }
+
+      .hero-subtitle {
+        font-size: var(--font-size-sm);
+      }
+
+      .ellipse-left,
+      .ellipse-right {
+        display: none;
+      }
+
+      .phone-showcase {
+        width: 280px;
+        height: 320px;
+      }
+
+      .phone-frame {
+        width: 180px;
+        height: 390px;
+      }
+
+      .download-title {
+        font-size: 28px;
+      }
+
+      .download-desc {
+        font-size: var(--font-size-xs);
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .download-btn {
+        width: 160px;
+        height: 46px;
+      }
+
+      .qr-section {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 24px;
+      }
+
+      .hero-subtitle {
+        font-size: var(--font-size-xs);
+        line-height: 1.6;
+      }
+
+      .hero-subtitle br {
+        margin-bottom: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 27.28 25.1" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#FF6420" d="M13.23 16.04c-.12-.01-.33-.03-.45-.04-2.28-.12-5.11 1.12-8.41 3.68-.61.48-1.2.97-1.74 1.44C14.57 4.69 3.2 0 3.2 0c7.95 1.57 10.2 5.09 10.6 8.96.15 2.26 2.7 2.66 2.7 2.66s-2.31-.12-2.75 1.72c-.19 1.25-.24 1.59-.52 2.7zm8.78 2.04c.58-.09 1.15-.27 1.7-.5.44-3.67-.17-10.64-10.3-13.29 0 0 6.11 3.36 3.73 12.7.06.03.11.05.17.08 1.54.65 3 1.27 4.7.97zm5.26-.38c-1.47.9-3.18 1.8-4.93 2.05-2.01.29-3.69-.36-5.38-1.02-1.41-.55-2.82-1.1-4.44-1.1-5.03 0-11.05 5.85-12.53 7.47 3.23-1.88 6.22-3.58 10.13-3.24 2.27.2 4.46 1.24 6.69 1.71 3.57.76 6.47.08 8.8-2.78.72-.89 1.35-1.99 1.66-3.09z"/>
+          </svg>
+        </div>
+        <span class="logo-text">Tabigo</span>
+      </a>
+      <nav class="nav">
+        <a href="#products" class="nav-link">商品紹介</a>
+        <a href="#contact" class="nav-link">お問い合わせ</a>
+        <a href="#privacy" class="nav-link">プライバシーポリシー</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="hero-bg.png" alt="Tabigo Hero Background">
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">日本の旅は、Tabigoから</h1>
+      <p class="hero-subtitle">
+        Tabigoは、スマートな旅行計画と旅の記録をサポートするアプリです。<br>
+        ワンタップで旅程を作成し、ローカルなおすすめスポットも簡単に見つかります。<br>
+        日本での移動やおでかけを、もっと便利に、もっと楽しく。
+      </p>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section class="download">
+    <!-- Decorative Elements -->
+    <div class="ellipse ellipse-left"></div>
+    <div class="ellipse ellipse-right"></div>
+    <div class="ellipse ellipse-small"></div>
+
+    <div class="download-content">
+      <!-- Phone Showcase -->
+      <div class="phone-showcase">
+        <div class="phone-frame">
+          <img src="phone-bg.jpg" alt="App Screenshot" class="phone-bg-img">
+          <img src="phone-overlay.png" alt="Phone Frame" class="phone-overlay-img">
+        </div>
+      </div>
+
+      <!-- Download Info -->
+      <div class="download-info">
+        <h2 class="download-title">Tabigoをはじめよう</h2>
+        <p class="download-desc">
+          列車チケットやさまざまなサービスをTabigoでまとめて予約。<br>
+          あなたの旅を、ここからもっと便利に。
+        </p>
+        <div class="download-buttons">
+          <a href="#" class="download-btn app-store">
+            <img src="app-store.png" alt="Download on App Store">
+          </a>
+          <a href="#" class="download-btn google-play">
+            <span class="download-btn-content">Google Play</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- QR Section -->
+      <div class="qr-section">
+        <div class="qr-card">
+          <img src="qr-code.png" alt="QR Code" class="qr-img">
+        </div>
+        <p class="qr-text">今すぐダウンロード</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="footer-text">版权：Copyright © Seishin Spirit Co., Ltd. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
